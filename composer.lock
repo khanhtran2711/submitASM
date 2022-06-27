@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1727baf3569227f5515b83a06e542249",
+    "content-hash": "b120dae96f0c9517be458f2670070bd8",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1524,6 +1524,60 @@
                 }
             ],
             "time": "2022-05-05T09:31:05+00:00"
+        },
+        {
+            "name": "kreemer/ux-autocomplete-js",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kreemer/ux-autocomplete-js.git",
+                "reference": "55a806da746e7bb680af1855f8f1a26ffeadee64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kreemer/ux-autocomplete-js/zipball/55a806da746e7bb680af1855f8f1a26ffeadee64",
+                "reference": "55a806da746e7bb680af1855f8f1a26ffeadee64",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.4",
+                "symfony/config": "^4.4.17|^5.0",
+                "symfony/dependency-injection": "^4.4.17|^5.0",
+                "symfony/doctrine-bridge": "^5.3",
+                "symfony/form": "^5.3",
+                "symfony/http-kernel": "^4.4.17|^5.0"
+            },
+            "conflict": {
+                "symfony/flex": "<1.13"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.1",
+                "phpstan/phpstan": "^0.12.99",
+                "phpunit/phpunit": "^9",
+                "symfony/framework-bundle": "^4.4.17|^5.0",
+                "symfony/phpunit-bridge": "^5.2",
+                "symfony/twig-bundle": "^4.4.17|^5.0",
+                "symfony/var-dumper": "^4.4.17|^5.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Kreemer\\UX\\AutoCompleteJS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "symfony-ux"
+            ],
+            "support": {
+                "issues": "https://github.com/kreemer/ux-autocomplete-js/issues",
+                "source": "https://github.com/kreemer/ux-autocomplete-js/tree/v1.0"
+            },
+            "time": "2021-09-29T09:15:44+00:00"
         },
         {
             "name": "laminas/laminas-code",
