@@ -1,0 +1,11 @@
+{
+    "controllers": {
+        "@kreemer/ux-autocomplete-js": {
+            "autocomplete": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        }
+    },
+    "entrypoints": []
+}

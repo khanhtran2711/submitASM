@@ -18,6 +18,14 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 class StudentController extends AbstractController
 {
+
+    /**
+     * @Route("/", name="welcome")
+     */
+    public function welcome(): Response
+    {
+        return $this->render('welcome.html.twig', []);
+    }
     /**
      * @Route("/add/student", name="app_student")
      */
@@ -48,52 +56,138 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/submit", name="submit")
+     * @Route("/submit", name="submit_form",methods={"GET"})
      */
     public function submitAction(ManagerRegistry $res, Request $req,StudentRepository $repo,SluggerInterface $slugger ): Response
     {
-        $f = new Submission();
-        $stdForm = $this->createForm(SubmitForm::class,$f);
+        // $f = new Submission();
+        // $stdForm = $this->createForm(SubmitForm::class,$f);
 
 
-        $stdForm->handleRequest($req);
-        $entity = $res->getManager();
+        // // $stdForm->handleRequest($req);
+        // $entity = $res->getManager();
 
-        if($stdForm->isSubmitted() && $stdForm->isValid()){
-            $data = $stdForm->getData();
-            $f->setGitHubLink($data->getGitHubLink());
-            $sid = $req->request->get('student_Id');
-            $student = $repo->findOneBy(['code'=>$sid]);
-            $f->setStd($student);
-            $f->setCreatedAt(new \DateTime());
+        // if($stdForm->isSubmitted() && $stdForm->isValid()){
+        //     $data = $stdForm->getData();
+        //     $f->setGitHubLink($data->getGitHubLink());
+        //     $sid = $req->request->get('student_Id');
+        //     $student = $repo->findOneBy(['code'=>$sid]);
+        //     $f->setStd($student);
+        //     $f->setCreatedAt(new \DateTime());
 
-            $fileUrl = $stdForm->get('fileUrl')->getData();
-            if ($fileUrl) {
-                $originalFilename = pathinfo($fileUrl->getClientOriginalName(), PATHINFO_FILENAME);
+        //     $fileUrl = $stdForm->get('fileUrl')->getData();
+        //     if ($fileUrl) {
+        //         $originalFilename = pathinfo($fileUrl->getClientOriginalName(), PATHINFO_FILENAME);
+        //         //  SluggerInterface $slugger
+        //         $safeFilename = $slugger->slug($originalFilename);
+        //         $newFilename = $safeFilename.'-'.uniqid().'.'.$fileUrl->guessExtension();
+        //         // Move the file to the directory where brochures are stored
+        //         try {
+        //             $fileUrl->move(
+        //                 $this->getParameter('file_dir'),
+        //                 $newFilename
+        //             );
+        //         } catch (FileException $e) {
+        //             echo $e;
+        //         }
+        //         $f->setFileUrl($newFilename);
+        //     }
+
+        //     $entity->persist($f);
+        //     $entity->flush();
+
+        //     return $this->redirectToRoute('submit');
+        // }
+
+        return $this->render('submit/index2.html.twig', [
+            // 'form' => $stdForm->createView()
+        ]);
+    }
+
+     /**
+     * @Route("/submit", name="submit_add",methods={"POST"})
+     */
+    public function addSubmitAction(Request $req, SluggerInterface $slugger,
+    StudentRepository $repo, ManagerRegistry $reg): Response
+    {
+        $req = $this->tranform($req);
+        $code = $req->request->get('code');
+        $link = $req->request->get('link');
+        $submit = new Submission();
+        $student = $repo->findOneBy(['code'=>$code]);
+        $submit->setStd($student);
+        $submit->setGitHubLink($link);
+        $submit->setCreatedAt(new \DateTime());
+        $file = $req->files->get('docFile');
+            if ($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 //  SluggerInterface $slugger
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$fileUrl->guessExtension();
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
                 // Move the file to the directory where brochures are stored
                 try {
-                    $fileUrl->move(
+                    $file->move(
                         $this->getParameter('file_dir'),
                         $newFilename
                     );
                 } catch (FileException $e) {
                     echo $e;
                 }
-                $f->setFileUrl($newFilename);
+                $submit->setFileUrl($newFilename);
             }
+        $entity = $reg->getManager();
+        $entity->persist($submit);
+        $entity->flush();      
+        // if($stdForm->isSubmitted() && $stdForm->isValid()){
+        //     $data = $stdForm->getData();
+        //     $f->setGitHubLink($data->getGitHubLink());
+        //     $sid = $req->request->get('student_Id');
+        //     $student = $repo->findOneBy(['code'=>$sid]);
+        //     $f->setStd($student);
 
-            $entity->persist($f);
-            $entity->flush();
 
-            return $this->redirectToRoute('submit');
-        }
+        //     $fileUrl = $stdForm->get('fileUrl')->getData();
+        //     if ($fileUrl) {
+        //         $originalFilename = pathinfo($fileUrl->getClientOriginalName(), PATHINFO_FILENAME);
+        //         //  SluggerInterface $slugger
+        //         $safeFilename = $slugger->slug($originalFilename);
+        //         $newFilename = $safeFilename.'-'.uniqid().'.'.$fileUrl->guessExtension();
+        //         // Move the file to the directory where brochures are stored
+        //         try {
+        //             $fileUrl->move(
+        //                 $this->getParameter('file_dir'),
+        //                 $newFilename
+        //             );
+        //         } catch (FileException $e) {
+        //             echo $e;
+        //         }
+        //         $f->setFileUrl($newFilename);
+        //     }
 
-        return $this->render('submit/index.html.twig', [
-            'form' => $stdForm->createView()
+        //     $entity->persist($f);
+        //     $entity->flush();
+
+        //     return $this->redirectToRoute('submit');
+        // }
+        // $code = $req->get('doc');
+        // // $code = $req->request->get('code');
+        // // $link = $req->request->get('link');
+        // // dd($req);
+        // // $file = $req->files->get('doc');
+        return $this->json([
+            'code'=>$code,
+            'link' => $link,
+            'fileUrl' => $newFilename
         ]);
+    }
+
+    public function tranform(Request $re){
+        $data = json_decode($re->getContent(), true);
+        if($data === null){
+            return $re;
+        }
+        $re->request->replace($data);
+        return $re;
     }
 
     /**
@@ -112,4 +206,16 @@ class StudentController extends AbstractController
         }
         return $this->json($data);
     }
+    /**
+     * @Route("/admin/getphoto/{filename}", name="get_photo")
+     */
+    public function getPhoto($filename) {
+        $file = $this->getParameter('img_dir') . '/' . $filename;
+        $response = new Response();
+        $response->headers->set('Content-Type', 'image/jpg');
+        $response->setContent(file_get_contents($file));
+        return $response;
+    }
+
+    
 }

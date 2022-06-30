@@ -1,0 +1,121 @@
+{% extends "base.html.twig" %}
+
+
+
+{% block body %}
+<script>
+  $(function(){
+      //loadajax();
+      $("#submitButton").on("click",function(){
+        sendAjax();
+      });
+  });
+function loadajax(){
+  var availableTags = function () {
+      var tmp = null;
+      $.ajax({
+          'async': false,
+          'type': "GET",
+          'dataType': 'json',
+          'url': "https://127.0.0.1:8000/student",
+          'complete': function(){
+            $("#loader").hide();
+          },
+          'success': function (data) {
+              tmp = data.slice();
+              $(".container").show();
+          }
+      });
+      return tmp;
+    }();
+    Object.values = function(object) {
+      var values = [];
+      for(var property in object) {
+        values.push(object[property].code);
+      }
+      return values;
+    }
+   console.log(Object.values(availableTags));
+    $( "#code" ).autocomplete({
+      source: Object.values(availableTags)
+    });
+}
+
+function sendAjax(){
+    
+    var formData = new FormData(this);
+    console.log(formData);
+       /*$.ajax({
+        type: "POST",
+        url: "https://127.0.0.1:8000/submit",
+        data: submit,
+        /*beforeSend: function(){
+            $("#loader").show();
+        },
+        complete: function () {
+            $("#loader").hide();
+        },
+        success: function (noti) {
+            console.log(noti);
+            //$("#loader").hide();
+            //$("#result").html("Success!");
+        },
+        error: function () {
+            //$("#loader").hide();
+            //$("#result").html("Error!");
+            console.log("error");
+        }
+    });*/
+    
+}
+  </script>
+<div class="container px-5 my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 rounded-3 shadow-lg">
+          <div class="card-body p-4">
+            <div class="text-center">
+              <h3 class="thin-heading mb-4">Submit Form</h3>
+              <p class="mb-4 text-muted">Fill your Student code, github link and if you want to give me your draft of document</p>
+            </div>
+  
+            {# <form id="contactForm" method="POST" 
+            enctype="multipart/form-data"> #}
+  
+              <!-- Student code Input -->
+              <div class="form-floating mb-3">
+                <input class="form-control" id="code" name="code" type="text" placeholder="Name" required/>
+                <label for="code">Student Code</label>
+                <div class="invalid-feedback" data-sb-feedback="name:required">Name is required.</div>
+              </div>
+              <!-- GitHub Input -->
+              <div class="form-floating mb-3">
+                <input class="form-control" id="link" name="link" type="text" placeholder="Github link" required/>
+                <label for="link">GitHub</label>
+              </div>
+  
+              <!-- Message Input -->
+              <div class="form-floating mb-3">
+                <input type="file" class="form-control" id="docFile" name="docFile" />
+                <label class="form-label" style="padding-top: 4px">Document (draft version)</label>
+              </div>
+  
+  
+              <!-- Submit button -->
+              <div class="d-grid">
+                {# Loader icon #}
+                <div id="loader" style="margin: auto;display: flex;" class="mb-4 d-none">
+                  <img src="{{ path("get_photo", {'filename' : 'loading.gif'}) }}">
+                </div>
+                <button class="btn btn-primary rounded-0 py-2 px-4" id="submitButton">Submit</button>
+              </div>
+            {# </form> #}
+            <!-- End of contact form -->
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>    
+{% endblock %}
