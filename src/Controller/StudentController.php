@@ -135,7 +135,7 @@ class StudentController extends AbstractController
                 }
                 $submit->setFileUrl($newFilename);
             }
-        // $entity = $reg->getManager();
+        $entity = $reg->getManager();
         // $entity->persist($submit);
         // $entity->flush();      
         // if($stdForm->isSubmitted() && $stdForm->isValid()){
@@ -164,8 +164,8 @@ class StudentController extends AbstractController
         //         $f->setFileUrl($newFilename);
         //     }
 
-        //     $entity->persist($f);
-        //     $entity->flush();
+        $entity->persist($submit);
+        $entity->flush();
 
         //     return $this->redirectToRoute('submit');
         // }

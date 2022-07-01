@@ -1,11 +1,9 @@
 {% extends "base.html.twig" %}
-
-
-
 {% block body %}
 <script>
   $(function(){
-      //loadajax();
+       $("#loader").hide();
+      loadajax();
       $("#submitForm").on('submit', function(e){
         e.preventDefault();
         var inputFile = document.getElementById('docFile');
@@ -20,16 +18,20 @@
             contentType: false,
             cache: false,
             processData:false,
-            success: function(response){ 
-              console.log(response.status);
-                /*$('.statusMsg').html('');
-                if(response.status == 1){
-                    $('#fupForm')[0].reset();
-                    $('.statusMsg').html('<p class="alert alert-success">'+response.code+'</p>');
-                }else{
-                    $('.statusMsg').html('<p class="alert alert-danger">'+response.code+'</p>');
-                }*/
-                
+            beforeSend: function(){
+                  $("#loader").show();
+              },
+              complete: function () {
+                  $("#loader").hide();
+              },
+            success: function (res) {
+                $("#loader").hide();
+                $("#result").html('<div class="alert alert-success" role="alert">Congrats! Your information has been submitted.! Keep calm and have good luck on your defense</div>');
+                console.log(res.status);
+            },
+            error: function () {
+                $("#loader").hide();
+                $("#result").html("Error!");
             }
         });
     });
@@ -42,9 +44,6 @@ function loadajax(){
           'type': "GET",
           'dataType': 'json',
           'url': "https://127.0.0.1:8000/student",
-          'complete': function(){
-            $("#loader").hide();
-          },
           'success': function (data) {
               tmp = data.slice();
               $(".container").show();
@@ -65,38 +64,8 @@ function loadajax(){
     });
 }
 
-function sendAjax(){
-    
-    var $code = $("#code").val();
-    var $link = $("#link").val();
-    var $file = $("#docFile").val();
-    var submit = {
-      code : $code,
-      link : $link,
-      file: $file
-    }
-    console.log(submit);
-       /*$.ajax({
-        type: "POST",
-        url: "https://127.0.0.1:8000/submit",
-        data: submit,
-        /*beforeSend: function(){
-            $("#loader").show();
-        },
-        complete: function () {
-            $("#loader").hide();
-        },
-        success: function (noti) {
-            console.log(noti);
-            //$("#loader").hide();
-            //$("#result").html("Success!");
-        },
-        error: function () {
-            //$("#loader").hide();
-            //$("#result").html("Error!");
-            console.log("error");
-        }
-    });*/
+function sendAjax(e){
+      
     
 }
   </script>
@@ -107,7 +76,17 @@ function sendAjax(){
           <div class="card-body p-4">
             <div class="text-center">
               <h3 class="thin-heading mb-4">Submit Form</h3>
-              <p class="mb-4 text-muted">Fill your Student code, github link and if you want to give me your draft of document</p>
+              <p class="mb-4 text-muted">Fill your Student code, github link and if you want to give me your draft of document.</p>
+               <div class="alert alert-danger" role="alert">
+                <div class="row">
+                        <div class="col-1 alert-icon-col">
+                            <span class="fa fa-exclamation-triangle fa-fw"></span>
+                        </div>
+                        <div class="col">
+                            <strong>Attention!</strong> Attach your database file (.sql) to your GitHub!
+                        </div>
+                    </div>
+                </div>
             </div>
   
             <form id="submitForm"
@@ -138,8 +117,10 @@ function sendAjax(){
               <!-- Submit button -->
               <div class="d-grid">
                 {# Loader icon #}
-                <div id="loader" style="margin: auto;display: flex;" class="mb-4 d-none">
+                <div id="loader" style="margin: auto;display: flex;" class="mb-4">
                   <img src="{{ path("get_photo", {'filename' : 'loading.gif'}) }}">
+                </div>
+                <div id="result">
                 </div>
                <input type="submit" name="submit" class="btn btn-success submitBtn" value="SUBMIT"/>
               </div>
