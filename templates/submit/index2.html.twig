@@ -6,9 +6,33 @@
 <script>
   $(function(){
       //loadajax();
-      $("#submitButton").on("click",function(){
-        sendAjax();
-      });
+      $("#submitForm").on('submit', function(e){
+        e.preventDefault();
+        var inputFile = document.getElementById('docFile');
+        var file = inputFile.files[0];
+        var formData = new FormData(this);
+        formData.append('file', file, file.name);
+        $.ajax({
+            type: 'POST',
+            url: "https://127.0.0.1:8000/submit",
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(response){ 
+              console.log(response.status);
+                /*$('.statusMsg').html('');
+                if(response.status == 1){
+                    $('#fupForm')[0].reset();
+                    $('.statusMsg').html('<p class="alert alert-success">'+response.code+'</p>');
+                }else{
+                    $('.statusMsg').html('<p class="alert alert-danger">'+response.code+'</p>');
+                }*/
+                
+            }
+        });
+    });
   });
 function loadajax(){
   var availableTags = function () {
@@ -43,8 +67,15 @@ function loadajax(){
 
 function sendAjax(){
     
-    var formData = new FormData(this);
-    console.log(formData);
+    var $code = $("#code").val();
+    var $link = $("#link").val();
+    var $file = $("#docFile").val();
+    var submit = {
+      code : $code,
+      link : $link,
+      file: $file
+    }
+    console.log(submit);
        /*$.ajax({
         type: "POST",
         url: "https://127.0.0.1:8000/submit",
@@ -79,8 +110,11 @@ function sendAjax(){
               <p class="mb-4 text-muted">Fill your Student code, github link and if you want to give me your draft of document</p>
             </div>
   
-            {# <form id="contactForm" method="POST" 
-            enctype="multipart/form-data"> #}
+            <form id="submitForm"
+            enctype="multipart/form-data" 
+            {# action="{{ path("submit_add") }}"
+            method="POST" #}
+            >
   
               <!-- Student code Input -->
               <div class="form-floating mb-3">
@@ -107,11 +141,11 @@ function sendAjax(){
                 <div id="loader" style="margin: auto;display: flex;" class="mb-4 d-none">
                   <img src="{{ path("get_photo", {'filename' : 'loading.gif'}) }}">
                 </div>
-                <button class="btn btn-primary rounded-0 py-2 px-4" id="submitButton">Submit</button>
+               <input type="submit" name="submit" class="btn btn-success submitBtn" value="SUBMIT"/>
               </div>
-            {# </form> #}
+            </form>
             <!-- End of contact form -->
-  
+   {# <button class="btn btn-primary rounded-0 py-2 px-4" id="submitButton">Submit</button> #}
           </div>
         </div>
       </div>

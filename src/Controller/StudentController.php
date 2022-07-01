@@ -118,7 +118,7 @@ class StudentController extends AbstractController
         $submit->setStd($student);
         $submit->setGitHubLink($link);
         $submit->setCreatedAt(new \DateTime());
-        $file = $req->files->get('docFile');
+        $file = $req->files->get('file');
             if ($file) {
                 $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 //  SluggerInterface $slugger
@@ -135,9 +135,9 @@ class StudentController extends AbstractController
                 }
                 $submit->setFileUrl($newFilename);
             }
-        $entity = $reg->getManager();
-        $entity->persist($submit);
-        $entity->flush();      
+        // $entity = $reg->getManager();
+        // $entity->persist($submit);
+        // $entity->flush();      
         // if($stdForm->isSubmitted() && $stdForm->isValid()){
         //     $data = $stdForm->getData();
         //     $f->setGitHubLink($data->getGitHubLink());
@@ -175,6 +175,7 @@ class StudentController extends AbstractController
         // // dd($req);
         // // $file = $req->files->get('doc');
         return $this->json([
+            'status' => true,
             'code'=>$code,
             'link' => $link,
             'fileUrl' => $newFilename
