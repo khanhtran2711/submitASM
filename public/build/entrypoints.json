@@ -37,6 +37,15 @@
       "css": [
         "/build/assets_styles_fonts_icomoon_style_css.css"
       ]
+    },
+    "welcome": {
+      "js": [
+        "/build/runtime.js",
+        "/build/welcome.js"
+      ],
+      "css": [
+        "/build/welcome.css"
+      ]
     }
   }
 }
