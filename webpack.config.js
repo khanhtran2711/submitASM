@@ -25,6 +25,8 @@ Encore
     .addEntry('bootstrap', './assets/styles/bootstrap.min.css')
     .addEntry('icon', './assets/styles/fonts/icomoon/style.css')
 
+    .addEntry('welcome', './assets/styles/welcome.css')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 

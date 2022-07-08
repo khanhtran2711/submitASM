@@ -23,7 +23,7 @@ class Submission
     private $gitHubLink;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $fileUrl;
 
@@ -37,6 +37,21 @@ class Submission
      * @ORM\JoinColumn(nullable=true)
      */
     private $std;
+
+    /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $size;
+
+    /**
+     * @ORM\Column(type="blob",nullable=true)
+     */
+    private $content;
 
     public function getId(): ?int
     {
@@ -87,6 +102,42 @@ class Submission
     public function setStd(?Student $std): self
     {
         $this->std = $std;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(string $size): self
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function setContent($content): self
+    {
+        $this->content = $content;
 
         return $this;
     }

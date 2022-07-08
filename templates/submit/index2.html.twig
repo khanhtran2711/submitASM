@@ -1,87 +1,19 @@
 {% extends "base.html.twig" %}
 {% block body %}
-<script>
-  $(function(){
-       $("#loader").hide();
-      loadajax();
-      $("#submitForm").on('submit', function(e){
-        e.preventDefault();
-        var inputFile = document.getElementById('docFile');
-        var file = inputFile.files[0];
-        var formData = new FormData(this);
-        formData.append('file', file, file.name);
-        $.ajax({
-            type: 'POST',
-            url: "https://127.0.0.1:8000/submit",
-            data: formData,
-            dataType: 'json',
-            contentType: false,
-            cache: false,
-            processData:false,
-            beforeSend: function(){
-                  $("#loader").show();
-              },
-              complete: function () {
-                  $("#loader").hide();
-              },
-            success: function (res) {
-                $("#loader").hide();
-                $("#result").html('<div class="alert alert-success" role="alert">Congrats! Your information has been submitted.! Keep calm and have good luck on your defense</div>');
-                console.log(res.status);
-            },
-            error: function () {
-                $("#loader").hide();
-                $("#result").html("Error!");
-            }
-        });
-    });
-  });
-function loadajax(){
-  var availableTags = function () {
-      var tmp = null;
-      $.ajax({
-          'async': false,
-          'type': "GET",
-          'dataType': 'json',
-          'url': "https://127.0.0.1:8000/student",
-          'success': function (data) {
-              tmp = data.slice();
-              $(".container").show();
-          }
-      });
-      return tmp;
-    }();
-    Object.values = function(object) {
-      var values = [];
-      for(var property in object) {
-        values.push(object[property].code);
-      }
-      return values;
-    }
-   console.log(Object.values(availableTags));
-    $( "#code" ).autocomplete({
-      source: Object.values(availableTags)
-    });
-}
-
-function sendAjax(e){
-      
-    
-}
-  </script>
 <div class="container px-5 my-5">
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="card border-0 rounded-3 shadow-lg">
           <div class="card-body p-4">
             <div class="text-center">
-              <h3 class="thin-heading mb-4">Submit Form</h3>
+              <h3 class="thin-heading mb-4">Submit Form</sup></h3>
+              <div id="demo">
+              
+              </div>
+              
               <p class="mb-4 text-muted">Fill your Student code, github link and if you want to give me your draft of document.</p>
                <div class="alert alert-danger" role="alert">
                 <div class="row">
-                        <div class="col-1 alert-icon-col">
-                            <span class="fa fa-exclamation-triangle fa-fw"></span>
-                        </div>
                         <div class="col">
                             <strong>Attention!</strong> Attach your database file (.sql) to your GitHub!
                         </div>
@@ -90,9 +22,7 @@ function sendAjax(e){
             </div>
   
             <form id="submitForm"
-            enctype="multipart/form-data" 
-            {# action="{{ path("submit_add") }}"
-            method="POST" #}
+            enctype="multipart/form-data"
             >
   
               <!-- Student code Input -->
@@ -100,6 +30,7 @@ function sendAjax(e){
                 <input class="form-control" id="code" name="code" type="text" placeholder="Name" required/>
                 <label for="code">Student Code</label>
                 <div class="invalid-feedback" data-sb-feedback="name:required">Name is required.</div>
+                <input type="hidden" id="group" name="group" value="{{ group }}">
               </div>
               <!-- GitHub Input -->
               <div class="form-floating mb-3">
@@ -112,7 +43,19 @@ function sendAjax(e){
                 <input type="file" class="form-control" id="docFile" name="docFile" />
                 <label class="form-label" style="padding-top: 4px">Document (draft version)</label>
               </div>
-  
+
+               <!-- Link drive Input -->
+              <div class="form-floating mb-3">
+                <div class="alert alert-info" role="alert">
+                <div class="row">
+                        <div class="col">
+                            If your document is greater than 10MB, please add your document files to GitHub. (I appreciate your flexibility &#128522;) 
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              
   
               <!-- Submit button -->
               <div class="d-grid">
@@ -121,12 +64,12 @@ function sendAjax(e){
                   <img src="{{ path("get_photo", {'filename' : 'loading.gif'}) }}">
                 </div>
                 <div id="result">
+                
                 </div>
-               <input type="submit" name="submit" class="btn btn-success submitBtn" value="SUBMIT"/>
+               <input type="submit" name="submit" class="btn btn-success submitBtn" value="SUBMIT" id="subBtn"/>
               </div>
             </form>
             <!-- End of contact form -->
-   {# <button class="btn btn-primary rounded-0 py-2 px-4" id="submitButton">Submit</button> #}
           </div>
         </div>
       </div>

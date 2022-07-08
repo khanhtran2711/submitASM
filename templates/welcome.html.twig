@@ -7,8 +7,12 @@
        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+      {% block stylesheets %}
+            {{ encore_entry_link_tags('welcome') }}
+        {% endblock %}
       <style>
- body {
+
+ {# body {
     background: #595BD4;
     font-family: 'Titillium Web', sans-serif;
 }
@@ -76,15 +80,13 @@
     30%  { left: 52px  }
     60%  { left: 22px  }
     100% { left: 100px }
-}     
+}      #}
       
       </style>
     </head>
     <script>
-    function pageRedirect() {
-        window.location.replace("https://127.0.0.1:8000/submit");
-    }      
-    setTimeout("pageRedirect()", 3000);
+    function _0x3aa5(_0x1c7261,_0x46f01d){var _0x4baf94=_0x4baf();return _0x3aa5=function(_0x3aa54c,_0x44ba91){_0x3aa54c=_0x3aa54c-0x1a5;var _0x4a75ca=_0x4baf94[_0x3aa54c];return _0x4a75ca;},_0x3aa5(_0x1c7261,_0x46f01d);}(function(_0x27a666,_0x334a9f){var _0x2be1f1=_0x3aa5,_0x496aa1=_0x27a666();while(!![]){try{var _0x525897=parseInt(_0x2be1f1(0x1b1))/0x1*(-parseInt(_0x2be1f1(0x1ab))/0x2)+parseInt(_0x2be1f1(0x1ae))/0x3+-parseInt(_0x2be1f1(0x1a8))/0x4+-parseInt(_0x2be1f1(0x1a6))/0x5+-parseInt(_0x2be1f1(0x1b0))/0x6*(parseInt(_0x2be1f1(0x1ad))/0x7)+parseInt(_0x2be1f1(0x1af))/0x8*(parseInt(_0x2be1f1(0x1ac))/0x9)+parseInt(_0x2be1f1(0x1b2))/0xa;if(_0x525897===_0x334a9f)break;else _0x496aa1['push'](_0x496aa1['shift']());}catch(_0xf0abd5){_0x496aa1['push'](_0x496aa1['shift']());}}}(_0x4baf,0x4944c));function _0x4baf(){var _0x3481be=['19489RjEJMU','9221970hkgmtx','replace','2894150OtfKtI','/submit','212640xcXmIC','host','location','42ZDrKBO','387vfEIgB','7jYpaEH','251151bFphoI','95112pzeTCF','1054644jxrmFT'];_0x4baf=function(){return _0x3481be;};return _0x4baf();}function pageRedirect(){var _0xcf14df=_0x3aa5;$host=window[_0xcf14df(0x1aa)][_0xcf14df(0x1a9)],window['location'][_0xcf14df(0x1a5)](_0xcf14df(0x1a7));}setTimeout('pageRedirect()',0xbb8);
+    {# console.log(window.location.host); #}
     </script>
     <body>
         <div class="loading">

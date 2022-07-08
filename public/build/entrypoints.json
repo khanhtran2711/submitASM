@@ -1,0 +1,42 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_slice_js-node_modules_core-js_modules_es_date_t-6dc58c.js",
+        "/build/app.js"
+      ],
+      "css": [
+        "/build/assets_styles_fonts_icomoon_style_css.css",
+        "/build/app.css"
+      ]
+    },
+    "style": {
+      "js": [
+        "/build/runtime.js",
+        "/build/style.js"
+      ],
+      "css": [
+        "/build/style.css"
+      ]
+    },
+    "bootstrap": {
+      "js": [
+        "/build/runtime.js",
+        "/build/bootstrap.js"
+      ],
+      "css": [
+        "/build/bootstrap.css"
+      ]
+    },
+    "icon": {
+      "js": [
+        "/build/runtime.js",
+        "/build/icon.js"
+      ],
+      "css": [
+        "/build/assets_styles_fonts_icomoon_style_css.css"
+      ]
+    }
+  }
+}
